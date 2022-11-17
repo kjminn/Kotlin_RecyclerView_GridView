@@ -1,9 +1,12 @@
 package kr.ac.dongyang.minn.kotlin_recyclerview_gridview
 
+import android.app.AlertDialog
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.NonDisposableHandle.parent
 import kr.ac.dongyang.minn.kotlin_recyclerview_gridview.databinding.ItemGridBinding
 import java.text.SimpleDateFormat
 
@@ -28,13 +31,22 @@ var listData = mutableListOf<Memo>()
 }
 
 class Holder(val binding: ItemGridBinding): RecyclerView.ViewHolder(binding.root){
-//    init {
-//        binding.root.setOnClickListener {
-//            Toast.makeText(binding.root.context, "클릭된 아이템은 ${binding.textTitle.text}", Toast.LENGTH_SHORT).show()
-//        }
-//    }
+
+    init {
+
+    }
+
     fun setMemo(memo: Memo) {
         binding.imgitem.setImageResource(memo.imgRes)
+        binding.root.setOnClickListener {
+            val dlg = AlertDialog.Builder(binding.root.context)
+            val view = LayoutInflater.from(binding.root.context).inflate(R.layout.dialog, null)
+            val dlgImgv = view.findViewById<ImageView>(R.id.dialog_imgv)
+            dlgImgv.setImageResource(memo.imgRes)
+            dlg.setView(view)
+            dlg.setNegativeButton("닫기", null)
+            dlg.show()
+        }
     }
 
 }
